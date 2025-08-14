@@ -1,6 +1,10 @@
 const Product = require('../models/productModel');
 
 const productController = {
+    wellcome: (req, res) => {
+        res.send('hi');
+    },
+    
     getAllproducts: (req, res) => {
           Product.getAll( (err, results) => {
                 if (err) return res.status(500).json({ error: err.message });
@@ -82,6 +86,13 @@ const productController = {
                     res.json({ message: 'Product restored' });
 
           });
+    },
+
+    getProductsView: (req, res) => {
+        Product.getAll((err, results) => {
+            if (err) return res.status(500).json({ error: err.message});
+            res.render('products', { products: results });
+        });
     }
 };
 

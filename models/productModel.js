@@ -1,6 +1,5 @@
 const db = require('../config/db');
 const { v4: uuidv4 } = require('uuid');
-const { search } = require('../routes/productRoutes');
 
 const Product = {
     getAll: (callback) => {
@@ -42,6 +41,11 @@ const Product = {
     restore: (id, callback) => {
         const query = 'UPDATE products SET is_deleted = 0 WHERE id = ?';
         db.query(query, [id], callback);
+    },
+
+    getProductView: (callback) => {
+        const query = 'SELECT * FROM products WHERE is_deleted = 0';
+        db.query(query, callback);
     }
 
 
