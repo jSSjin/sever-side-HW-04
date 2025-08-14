@@ -4,7 +4,7 @@ const productController = {
     wellcome: (req, res) => {
         res.send('hi');
     },
-    
+
     getAllproducts: (req, res) => {
           Product.getAll( (err, results) => {
                 if (err) return res.status(500).json({ error: err.message });
@@ -36,21 +36,20 @@ const productController = {
     },
 
     createProduct: (req, res) => {
+        const {name, price } = req.body;
+        if (!name || price == null) {
+            return res.status(400).json({ error: 'name and price are required'});
+        }
+          Product.create(req.body, (err, results) => {
+            if(err) {
+                return res.status(500).json({ error: err.message });
+            }
 
-          const { name, price } = req.body;
-
-          if(!name || price == null){
-            return res.status(400).json({ error: 'name and price are required'})
-          }
-
-          Product.create(req.body, (err, result) => {
-
-                    if (err) return res.status(500).json({ error: err.message });
-
-                    res.status(201).json({ id: result.insertId, message: 'Product created' });
-
+            res.status(201).json({
+                message: 'Product created'
+            });
           });
-    },
+        },
 
     updateProduct: (req, res) => {
 
@@ -66,14 +65,11 @@ const productController = {
     },
 
 
-    softDeleteProduct: (req, res) => {
-          const { id } = req.params;
-          Product.update(id, req.body, err => {
-
-                    if (err) return res.status(500).json({ error: err.message });
-
-                    res.json({ message: 'Product soft-deleted' });
-
+    softDeleteProduct:  (req, res) => {
+        const { id } = req.params;
+        Product.softDelete(id, err => {
+            if(err) return res.status(500).json({ error: err.message });
+            res.json({ message: 'Product soft-deleted' });
           });
     },
 
