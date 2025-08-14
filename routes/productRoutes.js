@@ -1,5 +1,6 @@
-const db = require('./config/db')
-const router = express.Router()
+const express = require('express');
+const db = require('../config/db');
+const router = express.Router();
 
 router.get('/products', (req, res) => {
 
