@@ -20,7 +20,7 @@ const Product = {
         db.query(query, [searchTerm], callback);
     },
 
-    create: (productData, callback) => {
+     create: (productData, callback) => {
         const { name, price, discount, review_count, image_url } = productData;
         const id = uuidv4();
         const query = 'INSERT INTO products (name, price, discount, review_count, image_url) VALUES (?, ?, ?, ?, ?)';
